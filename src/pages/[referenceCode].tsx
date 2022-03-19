@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import Img from '@components/Img/Img';
 import formatCurrency from '@helpers/formatCurrency';
 import DetailMenuItemModal from '@components/Modal/DetailMenuItemModal';
+import Head from 'next/head';
 
 type Props = {};
 
@@ -51,6 +52,9 @@ const RestoPage = () => {
 
   return (
     <>
+      <Head>
+        <title>Bee Resto | {referenceCode}</title>
+      </Head>
       <header
         className="bg-bee-main body-font py-2 shadow-md sticky"
         style={{
