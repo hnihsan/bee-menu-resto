@@ -75,7 +75,10 @@ export default function SwarmReferenceModal({
             <div className="flex gap-x-5 items-center">
               <div className="inline-block border rounded-xl mt-2 p-3">
                 <div className="">
-                  <QRCode value={referenceCode} size={100} />
+                  <QRCode
+                    value={`http://localhost:3000/${referenceCode}`}
+                    size={100}
+                  />
 
                   <Link href={'/[referenceCode]'} as={`/${referenceCode}`}>
                     <a

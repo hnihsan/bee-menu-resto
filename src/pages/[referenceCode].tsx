@@ -18,8 +18,8 @@ const RestoPage = () => {
 
     setResponse({
       header: {
-        logo: 'blob:http://localhost:3000/cc316f60-0844-4e8f-9990-1ae9f7f187d9',
-        restaurantName: "Siput's Restaurant",
+        logo: 'blob:http://localhost:3000/6d73e2d9-3315-41b1-abb5-8dac3e9bc60e',
+        restaurantName: "Nico's Resto",
       },
       categories: [
         {
@@ -33,25 +33,25 @@ const RestoPage = () => {
       ],
       products: [
         {
-          category: 'tea',
-          name: 'manis',
-          price: '1',
-          description: '231231',
           image:
-            'blob:http://localhost:3000/bf089031-654f-4e47-8eac-b3ae542a4d24',
+            'blob:http://localhost:3000/e5f9e2a9-4b97-4a7c-960e-ba25402eaf9c',
+          category: 'tea',
+          name: 'asdf',
+          price: '12',
+          description: 'asdfasdf',
         },
         {
-          category: 'coffee',
-          name: 'Coffe',
-          price: '123',
-          description: '12323',
           image:
-            'blob:http://localhost:3000/bf089031-654f-4e47-8eac-b3ae542a4d24',
+            'blob:http://localhost:3000/0549822b-8799-40c7-bfaf-35b75e4b8012',
+          category: 'coffee',
+          name: 'coffee',
+          price: '1',
+          description: '123',
         },
       ],
       backgroundColor: {
-        container1: '#fbff00',
-        container2: '#ff0000',
+        container1: '#fdffa9',
+        container2: '#ffffff',
       },
     });
   }, [referenceCode]);
@@ -85,6 +85,8 @@ const RestoPage = () => {
             backgroundColor: response?.backgroundColor.container2 ?? '#ffffff',
           }}
         >
+          <h2 className="text-3xl font-bold text-center">Menu</h2>
+          <hr className="my-3" />
           {response?.products.length > 0 ? (
             <div className={'flex gap-x-5 w-full'}>
               <aside
