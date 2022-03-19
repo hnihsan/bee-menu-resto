@@ -22,6 +22,12 @@ export default function ChangeBackgroundModal({
   onSubmit,
   onRequestClose,
 }: ModalProps) {
+  const [colors, setColors] = useState(currentColor);
+
+  const handlerSubmit = () => {
+    onSubmit(colors);
+    onRequestClose();
+  };
   return (
     <BaseModal
       maxWidth={640}
@@ -45,16 +51,39 @@ export default function ChangeBackgroundModal({
           <div className="container">
             <div className="mt-3">
               <label htmlFor="category" className="text-gray-300 ">
-                Color
+                Container 1
               </label>
               <input
                 id="category"
                 type="color"
-                value={currentColor}
+                value={colors.container1}
                 className="border h-10 border-gray-300 mt-2 text-sm rounded-md block w-full focus:border-black focus-visible:outline-none py-2 px-4 text-black "
-                onChange={(e) => onSubmit(e.target.value)}
+                onChange={(e) =>
+                  setColors({ ...colors, container1: e.target.value })
+                }
               />
             </div>
+            <div className="mt-3">
+              <label htmlFor="category" className="text-gray-300 ">
+                Container 2
+              </label>
+              <input
+                id="category"
+                type="color"
+                value={colors.container2}
+                className="border h-10 border-gray-300 mt-2 text-sm rounded-md block w-full focus:border-black focus-visible:outline-none py-2 px-4 text-black "
+                onChange={(e) => {
+                  setColors({ ...colors, container2: e.target.value });
+                }}
+              />
+            </div>
+
+            <button
+              className="mt-3 px-10 py-3 border cursor-pointer hover:bg-orange-400 hover:text-white hover:font-bold rounded-full transition-all duration-200"
+              onClick={handlerSubmit}
+            >
+              Apply
+            </button>
           </div>
         </BodyModal>
       </ContainerModal>

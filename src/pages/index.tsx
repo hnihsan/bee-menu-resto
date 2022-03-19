@@ -11,7 +11,10 @@ export default function Home({}: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalColorOpen, setIsModalColorOpen] = useState(false);
   const [products, setProducts] = useState([]);
-  const [backgroundColor, setBackgroundColor] = useState('#fdffa9');
+  const [backgroundColor, setBackgroundColor] = useState({
+    container1: '#fdffa9',
+    container2: '#ffffff',
+  });
   const [isModalSwarmOpen, setIsModalSwarmOpen] = useState(false);
 
   // NOTE categories
@@ -19,7 +22,9 @@ export default function Home({}: Props) {
   const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
 
   // NOTE restaurant name
-  const [restaurantName, setRestaurantName] = useState('Your Restaurant Name');
+  const [restaurantName, setRestaurantName] = useState(
+    'Enter Your Restaurant Name'
+  );
   const [isEditRestaurantName, setIsEditRestaurantName] = useState(false);
 
   const handlerMenuSubmit = (item: any) => {
@@ -63,7 +68,7 @@ export default function Home({}: Props) {
   return (
     <div
       className="relative background-wrapper py-10"
-      style={{ backgroundColor: backgroundColor }}
+      style={{ backgroundColor: backgroundColor.container1 }}
     >
       <div className="absolute right-12 bg-white drop-shadow-md rounded-lg p-6 animate-pulse">
         <h2>PREVIEW MODE</h2>
@@ -86,7 +91,10 @@ export default function Home({}: Props) {
           <h2>{restaurantName}</h2>
         )}
       </div>
-      <div className="container bg-white drop-shadow-md rounded-lg mt-4 p-8">
+      <div
+        className="container bg-white drop-shadow-md rounded-lg mt-4 p-8"
+        style={{ backgroundColor: backgroundColor.container2 }}
+      >
         <div className="flex gap-x-3">
           <button
             className="hover:bg-orange-500 hover:text-white transition duration-300 border  px-4 py-3 rounded-full mb-3"
