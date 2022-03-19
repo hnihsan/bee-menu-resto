@@ -1,11 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState } from "react";
 
-import BaseModal from './BaseModal';
+import BaseModal from "./BaseModal";
 
-import { ContainerModal, HeaderModal, BodyModal } from '@styles/global.style';
-import IconClose from '@public/images/icon-close.svg';
+import { ContainerModal, HeaderModal, BodyModal } from "@styles/global.style";
+import IconClose from "@public/images/icon-close.svg";
+import { Bee, BeeDebug } from "@ethersphere/bee-js";
 
 interface ModalProps {
   isOpen: boolean;
@@ -20,28 +21,54 @@ export default function CreateMenuModal({
   onSubmit,
   onRequestClose,
 }: ModalProps) {
+  const beeUrl = "http://localhost:1633";
+  const beeDebugUrl = "http://localhost:1635";
   const previewImage = useRef(null);
   const buttonUpload = useRef(null);
 
-  const [previewImageSrc, setPreviewImageSrc] = useState('');
+  const [previewImageSrc, setPreviewImageSrc] = useState("");
   const [item, setItem] = useState({});
+  const [imageFile, setImageFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
-  const handlerSubmit = () => {
-    onSubmit(item);
+  const handlerSubmit = async () => {
+    setUploading(true);
+    let submittedItem = {};
+    if (imageFile) {
+      try {
+        const ps = await beeDebug.getAllPostageBatch();
+        let usableStamps = ps.filter((stamp) => {
+          return stamp.usable;
+        });
+        let batchID = usableStamps[0].batchID;
+
+        const { reference } = await bee.uploadFile(batchID, imageFile);
+        const imageLink = `${beeUrl}/bzz/${reference}`;
+        submittedItem = { ...item, image: imageLink };
+      } catch (e) {
+        // setError(e)
+        console.log(e);
+      } finally {
+        setUploading(false);
+      }
+    }
+
+    onSubmit(submittedItem);
     onRequestClose();
   };
 
-  const handlerPreviewImage = (e) => {
+  const handlerPreviewImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const [file] = e.target.files;
     if (file) {
       const urlObject = URL.createObjectURL(file);
       setPreviewImageSrc(urlObject);
       previewImage.current.src = urlObject;
-
-      // REVIEW CHANGE PAYLOAD IMAGE HERE
-      setItem({ ...item, image: urlObject });
+      setImageFile(file);
     }
   };
+
+  const bee = new Bee(beeUrl);
+  const beeDebug = new BeeDebug(beeDebugUrl);
 
   return (
     <BaseModal
@@ -72,13 +99,13 @@ export default function CreateMenuModal({
                   buttonUpload.current.click();
                 }}
               >
-                <div className={`no-image ${previewImageSrc ? 'hidden' : ''}`}>
+                <div className={`no-image ${previewImageSrc ? "hidden" : ""}`}>
                   <div className="flex justify-center items-center">
                     <img
                       src="/images/default-image.png"
-                      width={'110px'}
-                      height={'110px'}
-                      alt={'upload'}
+                      width={"110px"}
+                      height={"110px"}
+                      alt={"upload"}
                     />
                   </div>
 
@@ -90,10 +117,10 @@ export default function CreateMenuModal({
                 <img
                   ref={previewImage}
                   src="/images/default-image.png"
-                  width={'100%'}
-                  height={'100%'}
-                  alt={'upload'}
-                  className={`rounded-md ${previewImageSrc ? '' : 'hidden'}`}
+                  width={"100%"}
+                  height={"100%"}
+                  alt={"upload"}
+                  className={`rounded-md ${previewImageSrc ? "" : "hidden"}`}
                 />
 
                 <input
@@ -133,11 +160,13 @@ export default function CreateMenuModal({
               </div>
               <div className="mt-3 md:w-1/2">
                 <label htmlFor="price" className="text-gray-300 ">
-                  Price
+                  Price ($)
                 </label>
                 <input
                   id="price"
                   type="number"
+                  step="0.1"
+                  min="0.1"
                   className="border border-gray-300 mt-2 text-sm rounded-md block w-full focus:border-black focus-visible:outline-none py-2 px-4 text-black "
                   placeholder="enter item price"
                   onChange={(e) => setItem({ ...item, price: e.target.value })}
@@ -164,7 +193,7 @@ export default function CreateMenuModal({
                 className="px-10 py-3 border cursor-pointer hover:bg-orange-400 hover:text-white hover:font-bold rounded-full transition-all duration-200"
                 onClick={handlerSubmit}
               >
-                Save
+                {uploading ? "Saving ..." : "Save"}
               </button>
             </div>
           </div>
