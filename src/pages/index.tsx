@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import formatCurrency from '@helpers/formatCurrency';
 import CreateMenuModal from '@components/Modal/CreateMenuModal';
 import ChangeBackgroundModal from '@components/Modal/ChangeBackgroundModal';
+import SwarmReferenceModal from '@components/Modal/SwarmReferenceModal';
 
 type Props = {};
 
@@ -10,6 +11,8 @@ export default function Home({}: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalColorOpen, setIsModalColorOpen] = useState(false);
   const [products, setProducts] = useState([]);
+  const [backgroundColor, setBackgroundColor] = useState('#fdffa9');
+  const [isModalSwarmOpen, setIsModalSwarmOpen] = useState(false);
 
   // NOTE categories
   const [categories, setCategories] = useState([]);
@@ -18,8 +21,6 @@ export default function Home({}: Props) {
   // NOTE restaurant name
   const [restaurantName, setRestaurantName] = useState('Your Restaurant Name');
   const [isEditRestaurantName, setIsEditRestaurantName] = useState(false);
-
-  const [backgroundColor, setBackgroundColor] = useState('#fdffa9');
 
   const handlerMenuSubmit = (item: any) => {
     if (!item.image) {
@@ -176,6 +177,22 @@ export default function Home({}: Props) {
         )}
       </div>
 
+      {products.length > 0 && (
+        <div
+          className="absolute bottom-10 right-10 rounded"
+          style={{ maxHeight: '75vh' }}
+        >
+          <button
+            className="text-white px-4 w-auto h-12 bg-orange-400 rounded-full hover:bg-orange-500 active:shadow-lg mouse shadow transition ease-in duration-200 focus:outline-none"
+            onClick={() => {
+              setIsModalSwarmOpen(true);
+            }}
+          >
+            <span>Create Page</span>
+          </button>
+        </div>
+      )}
+
       <CreateMenuModal
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}
@@ -193,21 +210,12 @@ export default function Home({}: Props) {
         shouldCloseOnOverlayClick={true}
       />
 
-      {products.length > 0 && (
-        <div
-          className="absolute bottom-10 right-10 rounded"
-          style={{ maxHeight: '75vh' }}
-        >
-          <button
-            className="text-white px-4 w-auto h-12 bg-orange-400 rounded-full hover:bg-orange-500 active:shadow-lg mouse shadow transition ease-in duration-200 focus:outline-none"
-            onClick={() => {
-              console.log(payload);
-            }}
-          >
-            <span>Create Page</span>
-          </button>
-        </div>
-      )}
+      <SwarmReferenceModal
+        isOpen={isModalSwarmOpen}
+        referenceCode="asdf"
+        onRequestClose={() => setIsModalSwarmOpen(false)}
+        payload={payload}
+      />
     </div>
   );
 }

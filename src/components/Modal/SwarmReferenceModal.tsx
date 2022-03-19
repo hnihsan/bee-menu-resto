@@ -1,8 +1,10 @@
-import React, {useState} from 'react';
-import { FaCopy } from 'react-icons/fa';
-import dynamic from 'next/dynamic'
-import { CopyToClipboard } from "react-copy-to-clipboard";
+import React, { useState } from 'react';
+import Link from 'next/link';
 
+import { FaCopy } from 'react-icons/fa';
+import dynamic from 'next/dynamic';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import QRCode from 'react-qr-code';
 
 import BaseModal from './BaseModal';
 
@@ -24,15 +26,12 @@ export default function SwarmReferenceModal({
   payload,
   onRequestClose,
 }: ModalProps) {
-  const [copyBtn, setCopyBtn] = useState('Copy')
+  const [copyBtn, setCopyBtn] = useState('Copy');
   const ReactJson = dynamic(import('react-json-view'), { ssr: false });
   const handleCopy = () => {
-    setCopyBtn('Copied !')
-    setTimeout(
-      () => setCopyBtn('Copy'),
-      1000
-    );
-  }
+    setCopyBtn('Copied !');
+    setTimeout(() => setCopyBtn('Copy'), 1000);
+  };
   return (
     <BaseModal
       maxWidth={640}
@@ -54,25 +53,53 @@ export default function SwarmReferenceModal({
         </HeaderModal>
         <BodyModal>
           <div className="container">
-            <p className='text-center'>Send your Order Reference below to <a href="#cashier">Cashier</a> !</p>
-            <div className='w-full border rounded-xl h-24 mt-2'>
-              <p className='break-words mx-3 my-3 text-lg font-bold'>{referenceCode}</p>
+            <p className="text-center">
+              Send your Order Reference below to <a href="#cashier">Cashier</a>{' '}
+              !
+            </p>
+
+            <div className="w-full border rounded-xl h-24 mt-2">
+              <p className="break-words mx-3 my-3 text-lg font-bold">
+                {referenceCode}
+              </p>
             </div>
-            <div className='w-full mt-2 flex justify-center'>
-              <CopyToClipboard
-                text={referenceCode}
-              >
+
+            <div className="w-full mt-2 flex justify-center">
+              <CopyToClipboard text={referenceCode}>
                 <button
-                  className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline inline-flex'
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline inline-flex"
                   onClick={handleCopy}
                 >
                   <FaCopy className="text-white" /> &nbsp; {copyBtn}
                 </button>
               </CopyToClipboard>
             </div>
-            <div className='mt-5'>
-              <p className='mb-2'>Uploaded data to SWARM Preview :</p>
-              <ReactJson src={payload} collapseStringsAfterLength={25} name={"payload"} collapsed={true} />
+
+            <div className="flex gap-x-5 items-center">
+              <div className="inline-block border rounded-xl mt-2 p-3">
+                <div className="">
+                  <QRCode value={referenceCode} size={100} />
+
+                  <Link href={'/[referenceCode]'} as={`/${referenceCode}`}>
+                    <a
+                      target={'_blank'}
+                      className="block mt-3 w-full text-center bg-blue-500 hover:bg-blue-700 text-white  py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm"
+                    >
+                      Open
+                    </a>
+                  </Link>
+                </div>
+              </div>
+
+              <div className="mt-5">
+                <p className="mb-2">Uploaded data to SWARM Preview :</p>
+                <ReactJson
+                  src={payload}
+                  collapseStringsAfterLength={25}
+                  name={'payload'}
+                  collapsed={true}
+                />
+              </div>
             </div>
           </div>
         </BodyModal>
