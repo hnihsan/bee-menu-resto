@@ -13,7 +13,8 @@ const Layouts = ({ children }) => {
 
   if (['/login'].includes(pathname)) {
     return <Centered>{children}</Centered>;
-  } else if (['/landing'].includes(pathname)) {
+  } else if (['/[referenceCode]'].includes(pathname)) {
+    console.log('masuk sini');
     return <Empty>{children}</Empty>;
   } else {
     return <Default>{children}</Default>;

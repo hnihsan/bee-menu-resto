@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import Image from 'next/image';
 type Props = {};
@@ -11,7 +12,9 @@ export default function Header({}: Props) {
           alt="Logo"
           className="rounded-full h-12 w-20"
         />
-        <span className="text-xl text-white font-bold">Bee Resto</span>
+        <span className="text-xl text-white font-bold">
+          Bee Creator Restaurant
+        </span>
       </div>
     </header>
   );

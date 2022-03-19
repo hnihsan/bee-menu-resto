@@ -1,5 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 import Img from '@components/Img/Img';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import formatCurrency from '@helpers/formatCurrency';
 import CreateMenuModal from '@components/Modal/CreateMenuModal';
 import ChangeBackgroundModal from '@components/Modal/ChangeBackgroundModal';
@@ -48,22 +49,38 @@ export default function Home({}: Props) {
     }
   };
 
-  const [payload, setPayload] = useState(null);
-
-  useEffect(() => {
-    setPayload({
-      restaurantName,
-      categories,
-      products,
-      backgroundColor,
-    });
-  }, [restaurantName, categories, products, backgroundColor]);
-
   const handleKeyDownRestaurantName = (e) => {
     if (e.key === 'Enter') {
       setIsEditRestaurantName(false);
     }
   };
+
+  // NOTE Logo
+  const previewImage = useRef(null);
+  const buttonUpload = useRef(null);
+  const [previewImageSrc, setPreviewImageSrc] = useState('');
+  const handlerPreviewImage = (e) => {
+    const [file] = e.target.files;
+    if (file) {
+      const urlObject = URL.createObjectURL(file);
+      setPreviewImageSrc(urlObject);
+      previewImage.current.src = urlObject;
+    }
+  };
+
+  // NOTE payload
+  const [payload, setPayload] = useState(null);
+  useEffect(() => {
+    setPayload({
+      header: {
+        logo: previewImageSrc,
+        restaurantName,
+      },
+      categories,
+      products,
+      backgroundColor,
+    });
+  }, [restaurantName, categories, products, backgroundColor, previewImageSrc]);
 
   return (
     <div
@@ -74,22 +91,58 @@ export default function Home({}: Props) {
         <h2>PREVIEW MODE</h2>
       </div>
 
-      <div
-        className="container bg-orange-400 text-white drop-shadow-md rounded-lg w-1/2 flex justify-center py-5 font-bold cursor-pointer"
-        onClick={() => setIsEditRestaurantName(true)}
-      >
-        {isEditRestaurantName ? (
-          <input
-            type="text"
-            className="mx-3 text-center border border-gray-300  text-sm rounded-md block w-full focus:border-black focus-visible:outline-none py-2 px-4 text-black "
-            value={restaurantName}
-            placeholder={restaurantName}
-            onChange={(e) => setRestaurantName(e.target.value)}
-            onKeyDown={handleKeyDownRestaurantName}
-          />
-        ) : (
-          <h2>{restaurantName}</h2>
-        )}
+      <div className="container bg-orange-400 text-white drop-shadow-md rounded-lg w-1/2 flex justify-center py-5 font-bold">
+        <div className="flex gap-x-3 items-center w-full justify-center">
+          <div
+            className="cursor-pointer"
+            onClick={() => {
+              buttonUpload.current.click();
+            }}
+          >
+            <img
+              ref={previewImage}
+              src="/images/default-image.png"
+              width={'75px'}
+              height={'75px'}
+              alt={'upload'}
+              className={`rounded-full ${previewImageSrc ? '' : 'hidden'}`}
+            />
+
+            <input
+              ref={buttonUpload}
+              type="file"
+              accept="image/*"
+              onChange={handlerPreviewImage}
+              className="hidden"
+            />
+
+            <img
+              src="/images/default-image.png"
+              alt=""
+              className={`w-12 h-12 rounded bg-white  ${
+                previewImageSrc ? 'hidden' : ''
+              }`}
+            />
+          </div>
+
+          {isEditRestaurantName ? (
+            <input
+              type="text"
+              className="mx-3 text-center border border-gray-300  text-sm rounded-md block w-full focus:border-black focus-visible:outline-none py-2 px-4 text-black "
+              value={restaurantName}
+              placeholder={restaurantName}
+              onChange={(e) => setRestaurantName(e.target.value)}
+              onKeyDown={handleKeyDownRestaurantName}
+            />
+          ) : (
+            <h2
+              className="cursor-pointer"
+              onClick={() => setIsEditRestaurantName(true)}
+            >
+              {restaurantName}
+            </h2>
+          )}
+        </div>
       </div>
       <div
         className="container bg-white drop-shadow-md rounded-lg mt-4 p-8"
@@ -124,7 +177,7 @@ export default function Home({}: Props) {
                 {categories.map(({ category }, index) => (
                   <li
                     key={index}
-                    className={`p-3 first-letter:uppercase  cursor-pointer text-hover-bee-main transition-all duration-75 ${
+                    className={`p-3 first-letter:uppercase  cursor-pointer text-hover-bee-main transition-all duration-75 border rounded-md mb-2 shadow ${
                       selectedCategoryIndex === index
                         ? 'border rounded bg-bee-main text-white hover:text-white'
                         : ''
@@ -150,7 +203,7 @@ export default function Home({}: Props) {
                   .map((product, index) => (
                     <div
                       key={index}
-                      className="border rounded-md hover:shadow-md relative"
+                      className="border rounded-md shadow-md hover:shadow-lg relative"
                     >
                       <figure className="bg-white rounded-md">
                         <div className="relative">
