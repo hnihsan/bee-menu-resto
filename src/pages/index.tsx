@@ -83,7 +83,7 @@ export default function Home({}: Props) {
     });
   }, [restaurantName, categories, products, backgroundColor, previewImageSrc]);
 
-  const [isModalDetailShow, setIsModalDetailShow] = useState(null);
+  const [isModalDetailShow, setIsModalDetailShow] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
   return (

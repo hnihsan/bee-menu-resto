@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Img from '@components/Img/Img';
 import formatCurrency from '@helpers/formatCurrency';
+import DetailMenuItemModal from '@components/Modal/DetailMenuItemModal';
 
 type Props = {};
 
@@ -18,47 +19,44 @@ const RestoPage = () => {
 
     setResponse({
       header: {
-        logo: 'blob:http://localhost:3000/6d73e2d9-3315-41b1-abb5-8dac3e9bc60e',
-        restaurantName: "Nico's Resto",
+        logo: 'blob:http://localhost:3000/c9c06512-3543-49a1-a489-c264c7c22a59',
+        restaurantName: "Siput's",
       },
       categories: [
         {
           index: 1,
           category: 'tea',
         },
-        {
-          index: 2,
-          category: 'coffee',
-        },
       ],
       products: [
         {
           image:
-            'blob:http://localhost:3000/e5f9e2a9-4b97-4a7c-960e-ba25402eaf9c',
+            'blob:http://localhost:3000/4db69081-325b-4414-bfb6-d588d80df53b',
+          name: 'White',
           category: 'tea',
-          name: 'asdf',
           price: '12',
-          description: 'asdfasdf',
-        },
-        {
-          image:
-            'blob:http://localhost:3000/0549822b-8799-40c7-bfaf-35b75e4b8012',
-          category: 'coffee',
-          name: 'coffee',
-          price: '1',
-          description: '123',
+          description:
+            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam accusamus incidunt quos tenetur ab dolores vero voluptatem, amet architecto fugiat libero consequuntur recusandae odit tempore aliquam corrupti. Doloremque officia, repellat beatae atque aliquam eligendi?',
         },
       ],
       backgroundColor: {
         container1: '#fdffa9',
-        container2: '#ffffff',
+        container2: '#ffb72b',
       },
     });
   }, [referenceCode]);
 
+  const [isModalDetailShow, setIsModalDetailShow] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
   return (
     <>
-      <header className="bg-bee-main body-font py-2 shadow-md sticky">
+      <header
+        className="bg-bee-main body-font py-2 shadow-md sticky"
+        style={{
+          backgroundColor: response?.backgroundColor.container2 ?? '#fdffa9',
+        }}
+      >
         <div className="container flex items-center justify-center gap-x-3">
           <img
             src={response?.header?.logo ?? '/images/default-image.png'}
@@ -79,12 +77,7 @@ const RestoPage = () => {
           backgroundColor: response?.backgroundColor.container1 ?? '#ffb72b',
         }}
       >
-        <div
-          className="container  drop-shadow-md rounded-lg mt-4 p-8"
-          style={{
-            backgroundColor: response?.backgroundColor.container2 ?? '#ffffff',
-          }}
-        >
+        <div className="container bg-white drop-shadow-md rounded-lg mt-4 p-8">
           <h2 className="text-3xl font-bold text-center">Menu</h2>
           <hr className="my-3" />
           {response?.products.length > 0 ? (
@@ -125,7 +118,11 @@ const RestoPage = () => {
                     .map((product, index) => (
                       <div
                         key={index}
-                        className="border rounded-md hover:shadow-md relative"
+                        className="border rounded-md hover:shadow-md relative cursor-pointer"
+                        onClick={() => {
+                          setSelectedItem(product);
+                          setIsModalDetailShow(true);
+                        }}
                       >
                         <figure className="bg-white rounded-md">
                           <div className="relative">
@@ -148,6 +145,9 @@ const RestoPage = () => {
                             <h2 className="text-gray-900 text-center text-sm">
                               {product.name}
                             </h2>
+                            <h3 className="text-gray-900 text-sm mt-3 truncate ">
+                              {product.description}
+                            </h3>
                           </figcaption>
                         </figure>
                       </div>
@@ -159,6 +159,12 @@ const RestoPage = () => {
             <h2 className="text-center">Please create add menu first</h2>
           )}
         </div>
+
+        <DetailMenuItemModal
+          isOpen={isModalDetailShow}
+          data={selectedItem}
+          onRequestClose={() => setIsModalDetailShow(false)}
+        />
       </main>
     </>
   );

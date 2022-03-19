@@ -20,7 +20,6 @@ export default function DetailMenuItemModal({
   data,
   onRequestClose,
 }: ModalProps) {
-  console.log(data);
   return (
     <BaseModal
       maxWidth={640}
