@@ -3,9 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
-main {
-  min-height: 100vh;
-  background-color: #fdffa9;
+main,
+.background-wrapper {
+  min-height: calc(100vh - 64px);
+  background-color: transparent;
 }
 
 figure:hover .meta {
@@ -39,24 +40,24 @@ input[type='number']::-webkit-outer-spin-button {
   outline: none !important;
 }
 
-.tabs-navigation:hover{
+.tabs-navigation:hover {
   cursor: pointer;
 }
 
-.bg-bee-main{
-  background-color: #FFB72B;
+.bg-bee-main {
+  background-color: #ffb72b;
 }
 
-.bg-bee-secondary{
+.bg-bee-secondary {
   background-color: #fdffa9;
 }
 
-.border-bee-main{
+.border-bee-main {
   --tw-border-opacity: 1;
-  border-color: #FFB72B;
+  border-color: #ffb72b;
 }
 
-.text-hover-bee-main:hover{
+.text-hover-bee-main:hover {
   --tw-text-opacity: 1;
-  color: #FFB72B;
+  color: #ffb72b;
 }
