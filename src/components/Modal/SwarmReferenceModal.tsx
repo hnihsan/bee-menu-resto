@@ -10,6 +10,7 @@ import BaseModal from './BaseModal';
 
 import { ContainerModal, HeaderModal, BodyModal } from '@styles/global.style';
 import IconClose from '@public/images/icon-close.svg';
+import toImg from 'react-svg-to-image';
 
 interface ModalProps {
   isOpen: boolean;
@@ -72,31 +73,45 @@ export default function SwarmReferenceModal({
               </CopyToClipboard>
             </div>
 
-            <div className="flex gap-x-5 items-center">
-              <div className="inline-block border rounded-xl mt-2 p-3">
-                <div className="">
-                  <QRCode value={referenceCode} size={100} />
-
-                  <Link href={'/[referenceCode]'} as={`/${referenceCode}`}>
-                    <a
-                      target={'_blank'}
-                      className="block mt-3 w-full text-center bg-blue-500 hover:bg-blue-700 text-white  py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm"
-                    >
-                      Open
-                    </a>
-                  </Link>
+            <div className="flex gap-x-5 items-center mt-3">
+              <div className="border rounded-xl mt-2 p-3 w-full">
+                <div className="flex justify-center items-center">
+                  <QRCode
+                    id="qr-code"
+                    value={`http://localhost:3000/${referenceCode}`}
+                    size={100}
+                  />
                 </div>
+
+                <Link href={'/[referenceCode]'} as={`/${referenceCode}`}>
+                  <a
+                    target={'_blank'}
+                    className="block mt-3 w-full text-center bg-blue-500 hover:bg-blue-700 text-white  py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm"
+                  >
+                    Open Link
+                  </a>
+                </Link>
+                <button
+                  onClick={() => {
+                    toImg('#qr-code', 'name');
+                  }}
+                  className="block mt-3 w-full text-center bg-blue-500 hover:bg-blue-700 text-white  py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm"
+                >
+                  Download QR
+                </button>
               </div>
 
-              <div className="mt-5">
-                <p className="mb-2">Uploaded data to SWARM Preview :</p>
-                <ReactJson
-                  src={payload}
-                  collapseStringsAfterLength={25}
-                  name={'payload'}
-                  collapsed={true}
-                />
-              </div>
+              {false && (
+                <div className="mt-5">
+                  <p className="mb-2">Uploaded data to SWARM Preview :</p>
+                  <ReactJson
+                    src={payload}
+                    collapseStringsAfterLength={25}
+                    name={'payload'}
+                    collapsed={true}
+                  />
+                </div>
+              )}
             </div>
           </div>
         </BodyModal>

@@ -51,7 +51,7 @@ export default function ChangeBackgroundModal({
           <div className="container">
             <div className="mt-3">
               <label htmlFor="category" className="text-gray-300 ">
-                Container 1
+                Pick Background Color
               </label>
               <input
                 id="category"
@@ -65,7 +65,7 @@ export default function ChangeBackgroundModal({
             </div>
             <div className="mt-3">
               <label htmlFor="category" className="text-gray-300 ">
-                Container 2
+                Pick Header Color
               </label>
               <input
                 id="category"

@@ -5,6 +5,7 @@ import formatCurrency from '@helpers/formatCurrency';
 import CreateMenuModal from '@components/Modal/CreateMenuModal';
 import ChangeBackgroundModal from '@components/Modal/ChangeBackgroundModal';
 import SwarmReferenceModal from '@components/Modal/SwarmReferenceModal';
+import DetailMenuItemModal from '@components/Modal/DetailMenuItemModal';
 
 type Props = {};
 
@@ -14,7 +15,7 @@ export default function Home({}: Props) {
   const [products, setProducts] = useState([]);
   const [backgroundColor, setBackgroundColor] = useState({
     container1: '#fdffa9',
-    container2: '#ffffff',
+    container2: '#ffb72b',
   });
   const [isModalSwarmOpen, setIsModalSwarmOpen] = useState(false);
 
@@ -82,6 +83,9 @@ export default function Home({}: Props) {
     });
   }, [restaurantName, categories, products, backgroundColor, previewImageSrc]);
 
+  const [isModalDetailShow, setIsModalDetailShow] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
   return (
     <div
       className="relative background-wrapper py-10"
@@ -91,63 +95,67 @@ export default function Home({}: Props) {
         <h2>PREVIEW MODE</h2>
       </div>
 
-      <div className="container bg-orange-400 text-white drop-shadow-md rounded-lg w-1/2 flex justify-center py-5 font-bold">
-        <div className="flex gap-x-3 items-center w-full justify-center">
-          <div
-            className="cursor-pointer"
-            onClick={() => {
-              buttonUpload.current.click();
-            }}
-          >
-            <img
-              ref={previewImage}
-              src="/images/default-image.png"
-              width={'75px'}
-              height={'75px'}
-              alt={'upload'}
-              className={`rounded-full ${previewImageSrc ? '' : 'hidden'}`}
-            />
+      <div className="container border p-3 rounded-md bg-gray-100 text-gray-500">
+        <h2 className="mb-2">Enter your restaurant name and logo</h2>
 
-            <input
-              ref={buttonUpload}
-              type="file"
-              accept="image/*"
-              onChange={handlerPreviewImage}
-              className="hidden"
-            />
-
-            <img
-              src="/images/default-image.png"
-              alt=""
-              className={`w-12 h-12 rounded bg-white  ${
-                previewImageSrc ? 'hidden' : ''
-              }`}
-            />
-          </div>
-
-          {isEditRestaurantName ? (
-            <input
-              type="text"
-              className="mx-3 text-center border border-gray-300  text-sm rounded-md block w-full focus:border-black focus-visible:outline-none py-2 px-4 text-black "
-              value={restaurantName}
-              placeholder={restaurantName}
-              onChange={(e) => setRestaurantName(e.target.value)}
-              onKeyDown={handleKeyDownRestaurantName}
-            />
-          ) : (
-            <h2
+        <div
+          className="text-white drop-shadow-md rounded-lg w-full flex justify-center py-5 font-bold"
+          style={{ backgroundColor: backgroundColor.container2 }}
+        >
+          <div className="flex gap-x-3 items-center w-full justify-center">
+            <div
               className="cursor-pointer"
-              onClick={() => setIsEditRestaurantName(true)}
+              onClick={() => {
+                buttonUpload.current.click();
+              }}
             >
-              {restaurantName}
-            </h2>
-          )}
+              <img
+                ref={previewImage}
+                src="/images/default-image.png"
+                width={'75px'}
+                height={'75px'}
+                alt={'upload'}
+                className={`rounded-full ${previewImageSrc ? '' : 'hidden'}`}
+              />
+
+              <input
+                ref={buttonUpload}
+                type="file"
+                accept="image/*"
+                onChange={handlerPreviewImage}
+                className="hidden"
+              />
+
+              <img
+                src="/images/default-image.png"
+                alt=""
+                className={`w-12 h-12 rounded bg-white  ${
+                  previewImageSrc ? 'hidden' : ''
+                }`}
+              />
+            </div>
+
+            {isEditRestaurantName ? (
+              <input
+                type="text"
+                className="mx-3 text-center border border-gray-300  text-sm rounded-md block w-full focus:border-black focus-visible:outline-none py-2 px-4 text-black "
+                value={restaurantName}
+                placeholder={restaurantName}
+                onChange={(e) => setRestaurantName(e.target.value)}
+                onKeyDown={handleKeyDownRestaurantName}
+              />
+            ) : (
+              <h2
+                className="cursor-pointer"
+                onClick={() => setIsEditRestaurantName(true)}
+              >
+                {restaurantName}
+              </h2>
+            )}
+          </div>
         </div>
       </div>
-      <div
-        className="container bg-white drop-shadow-md rounded-lg mt-4 p-8"
-        style={{ backgroundColor: backgroundColor.container2 }}
-      >
+      <div className="container bg-white drop-shadow-md rounded-lg mt-4 p-8 ">
         <div className="flex gap-x-3">
           <button
             className="hover:bg-orange-500 hover:text-white transition duration-300 border  px-4 py-3 rounded-full mb-3"
@@ -193,7 +201,7 @@ export default function Home({}: Props) {
               className="w-10/12  overflow-auto p-4 border-l"
               style={{ maxHeight: '70vh', height: '70vh' }}
             >
-              <div className="grid grid-cols-4 gap-4">
+              <div className="grid grid-cols-3 gap-4">
                 {products
                   .filter(
                     (product) =>
@@ -203,7 +211,11 @@ export default function Home({}: Props) {
                   .map((product, index) => (
                     <div
                       key={index}
-                      className="border rounded-md shadow-md hover:shadow-lg relative"
+                      className="border rounded-md shadow-md hover:shadow-lg relative cursor-pointer"
+                      onClick={() => {
+                        setIsModalDetailShow(true);
+                        setSelectedItem(product);
+                      }}
                     >
                       <figure className="bg-white rounded-md">
                         <div className="relative">
@@ -222,10 +234,13 @@ export default function Home({}: Props) {
                           </div>
                         </div>
 
-                        <figcaption className="p-4 text-black text-center">
-                          <h2 className="text-gray-900 text-center text-sm">
+                        <figcaption className="p-4 text-black">
+                          <h2 className="text-gray-900 text-center font-bold">
                             {product.name}
                           </h2>
+                          <h3 className="text-gray-900 text-sm mt-3 truncate ">
+                            {product.description}
+                          </h3>
                         </figcaption>
                       </figure>
                     </div>
@@ -276,6 +291,12 @@ export default function Home({}: Props) {
         referenceCode="asdf"
         onRequestClose={() => setIsModalSwarmOpen(false)}
         payload={payload}
+      />
+
+      <DetailMenuItemModal
+        isOpen={isModalDetailShow}
+        data={selectedItem}
+        onRequestClose={() => setIsModalDetailShow(false)}
       />
     </div>
   );
