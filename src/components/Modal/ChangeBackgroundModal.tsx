@@ -28,6 +28,16 @@ export default function ChangeBackgroundModal({
     onSubmit(colors);
     onRequestClose();
   };
+
+  const handlerResetDefault = () => {
+    setColors({
+      container1: '#fdffa9',
+      container2: '#ffb72b',
+    });
+    onSubmit(colors);
+    onRequestClose();
+  };
+
   return (
     <BaseModal
       maxWidth={640}
@@ -78,12 +88,21 @@ export default function ChangeBackgroundModal({
               />
             </div>
 
-            <button
-              className="mt-3 px-10 py-3 border cursor-pointer hover:bg-orange-400 hover:text-white hover:font-bold rounded-full transition-all duration-200"
-              onClick={handlerSubmit}
-            >
-              Apply
-            </button>
+            <div className="flex gap-x-3">
+              <button
+                className="mt-3 px-10 py-3 border cursor-pointer hover:bg-orange-400 hover:text-white hover:font-bold rounded-full transition-all duration-200"
+                onClick={handlerSubmit}
+              >
+                Apply
+              </button>
+
+              <button
+                className="mt-3 px-10 py-3 border cursor-pointer hover:bg-orange-400 hover:text-white hover:font-bold rounded-full transition-all duration-200"
+                onClick={handlerResetDefault}
+              >
+                Reset Default
+              </button>
+            </div>
           </div>
         </BodyModal>
       </ContainerModal>
