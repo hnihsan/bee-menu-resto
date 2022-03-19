@@ -11,6 +11,7 @@ import BaseModal from './BaseModal';
 import { ContainerModal, HeaderModal, BodyModal } from '@styles/global.style';
 import IconClose from '@public/images/icon-close.svg';
 import toImg from 'react-svg-to-image';
+import Loading from '@components/Loading/Loading';
 
 interface ModalProps {
   isOpen: boolean;
@@ -54,6 +55,8 @@ export default function SwarmReferenceModal({
         </HeaderModal>
         <BodyModal>
           <div className="container">
+            <Loading />
+
             <p className="text-center">This is your Reference Code</p>
 
             <div className="w-full border rounded-xl h-24 mt-2">
