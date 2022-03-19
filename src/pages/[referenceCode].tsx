@@ -1,54 +1,35 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import Img from '@components/Img/Img';
-import formatCurrency from '@helpers/formatCurrency';
-import DetailMenuItemModal from '@components/Modal/DetailMenuItemModal';
-import Head from 'next/head';
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import Img from "@components/Img/Img";
+import formatCurrency from "@helpers/formatCurrency";
+import DetailMenuItemModal from "@components/Modal/DetailMenuItemModal";
+import Head from "next/head";
+import { Bee } from "@ethersphere/bee-js";
 
 type Props = {};
 
 const RestoPage = () => {
   const router = useRouter();
-  const { referenceCode } = router.query;
+  const { referenceCode }: any = router.query;
 
   const [response, setResponse] = useState(null);
   const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
 
   useEffect(() => {
-    console.log(referenceCode);
+    const getSwarmResponse = async () => {
+      const swarmData: any = await bee.downloadData(referenceCode);
+      const response: any = swarmData.json();
+      setResponse(response);
+    };
 
-    setResponse({
-      header: {
-        logo: 'blob:http://localhost:3000/c9c06512-3543-49a1-a489-c264c7c22a59',
-        restaurantName: "Siput's",
-      },
-      categories: [
-        {
-          index: 1,
-          category: 'tea',
-        },
-      ],
-      products: [
-        {
-          image:
-            'blob:http://localhost:3000/4db69081-325b-4414-bfb6-d588d80df53b',
-          name: 'White',
-          category: 'tea',
-          price: '12',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam accusamus incidunt quos tenetur ab dolores vero voluptatem, amet architecto fugiat libero consequuntur recusandae odit tempore aliquam corrupti. Doloremque officia, repellat beatae atque aliquam eligendi?',
-        },
-      ],
-      backgroundColor: {
-        container1: '#fdffa9',
-        container2: '#ffb72b',
-      },
-    });
+    getSwarmResponse();
   }, [referenceCode]);
 
   const [isModalDetailShow, setIsModalDetailShow] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const beeUrl = "http://localhost:1633";
+  const bee = new Bee(beeUrl);
 
   return (
     <>
@@ -58,15 +39,15 @@ const RestoPage = () => {
       <header
         className="bg-bee-main body-font py-2 shadow-md sticky"
         style={{
-          backgroundColor: response?.backgroundColor.container2 ?? '#fdffa9',
+          backgroundColor: response?.backgroundColor?.container2 ?? "#fdffa9",
         }}
       >
         <div className="container flex items-center justify-center gap-x-3">
           <img
-            src={response?.header?.logo ?? '/images/default-image.png'}
-            width={'75px'}
-            height={'75px'}
-            alt={'upload'}
+            src={response?.header?.logo ?? "/images/default-image.png"}
+            width={"75px"}
+            height={"75px"}
+            alt={"upload"}
             className={`rounded-full`}
           />
           <span className="text-xl text-white font-bold">
@@ -78,17 +59,17 @@ const RestoPage = () => {
       <main
         className="relative background-wrapper py-10"
         style={{
-          backgroundColor: response?.backgroundColor.container1 ?? '#ffb72b',
+          backgroundColor: response?.backgroundColor?.container1 ?? "#ffb72b",
         }}
       >
         <div className="container bg-white drop-shadow-md rounded-lg mt-4 p-8">
           <h2 className="text-3xl font-bold text-center">Menu</h2>
           <hr className="my-3" />
           {response?.products.length > 0 ? (
-            <div className={'flex gap-x-5 w-full'}>
+            <div className={"flex gap-x-5 w-full"}>
               <aside
                 className="w-2/12 overflow-auto "
-                style={{ maxHeight: '70vh' }}
+                style={{ maxHeight: "70vh" }}
               >
                 <ul className="list-none">
                   {response?.categories.map(({ category }, index) => (
@@ -96,8 +77,8 @@ const RestoPage = () => {
                       key={index}
                       className={`p-3 first-letter:uppercase  cursor-pointer text-hover-bee-main transition-all duration-75 ${
                         selectedCategoryIndex === index
-                          ? 'border rounded bg-bee-main text-white hover:text-white'
-                          : ''
+                          ? "border rounded bg-bee-main text-white hover:text-white"
+                          : ""
                       }`}
                       onClick={() => setSelectedCategoryIndex(index)}
                     >
@@ -108,7 +89,7 @@ const RestoPage = () => {
               </aside>
               <div
                 className="w-10/12  overflow-auto p-4 border-l"
-                style={{ maxHeight: '70vh', height: '70vh' }}
+                style={{ maxHeight: "70vh", height: "70vh" }}
               >
                 <div className="grid grid-cols-4 gap-4">
                   {response?.products
@@ -134,7 +115,7 @@ const RestoPage = () => {
                               src={product.image}
                               height="100%"
                               width="100%"
-                              alt={''}
+                              alt={""}
                               classname="object-cover rounded-tl-md rounded-tr-md"
                             />
 
