@@ -1,21 +1,17 @@
-# Bee Cafe - Customer
+# Nectars - Restaurant Menu Creator
 
-In Participation for We Are Millions Hackathon, a submission for [Best Demonstration Of Data Interoperability Using Swarm](https://gitcoin.co/issue/fairdatasociety/wam/2/100027831)
+In Participation for We Are Millions Hackathon, a submission for [Best Web2 App Using Swarm Decentralized Storage](https://gitcoin.co/issue/fairdatasociety/wam/14/100027825)
 
 ## Descriptions
 
-Bee Cafe is a simple DApp for demonstrating how data in SWARM can be used interoperably for communicating between DApps.
-Bee Cafe consist of 2 DApps, with the following Repository :
-
-1. [Bee Cafe - Customer](https://github.com/hnihsan/bee-cafe-customer)
-2. [Bee Cafe - Cashier](https://github.com/hnihsan/bee-cafe-cashier)
-
-Please setup the other Repo to achieve demonstration result completely.
+Nectars is a Restaurant Menu creator, where anyone can use it to make their own menu. The menu data then stored in SWARM Decentralized Storage. Created menu will then have QR code / URL that can be accessed publicly by their customer to view the Menu online.
 
 ## How It Works
 
-This DApps will demonstrate how we use SWARM to basically upload and download data, in a use case of a Cafe.
-User can choose a variety of items, and then order it. The DApp will then upload the selected menu items data to SWARM, generating it's Order Reference code and then the Cashier DApp will accepting the reference code, downloading and converting the data from SWARM to a list of _New Orders_ to be processed and served.
+User creates their resto menu in the Menu Creators, upload every menu image, add descriptions, price, and category. Also user can customize the background and header color.
+After user finished with the menu, user then click create page.
+The app will then compile it to JSON, stored to SWARM, then user can get their menu QR Code (URL Link).
+User can download the QR Code to be placed in their resto tables, or anywhere so user can see their menu online.
 
 ## Demonstrations Video
 
@@ -44,4 +40,4 @@ npm run build
 npm run start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the Bee Cafe - Customer DApp.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the Nectars - Restaurant Menu Creator DApp.
