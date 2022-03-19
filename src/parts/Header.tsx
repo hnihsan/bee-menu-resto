@@ -13,7 +13,7 @@ export default function Header({}: Props) {
           className="rounded-full h-12 w-12"
         />
         <span className="text-xl text-white font-bold">
-          Bee Creator Restaurant
+          Nectars - Restaurant Menu Creator
         </span>
       </div>
     </header>

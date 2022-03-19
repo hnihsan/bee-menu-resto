@@ -34,7 +34,8 @@ const RestoPage = () => {
   return (
     <>
       <Head>
-        <title>Bee Resto | {referenceCode}</title>
+        <title>Bee Resto | {response?.header?.restaurantName}</title>
+        <link rel="shortcut icon" href={response?.header?.logo} />
       </Head>
       <header
         className="bg-bee-main body-font py-2 shadow-md sticky"
