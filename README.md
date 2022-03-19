@@ -16,7 +16,7 @@ User can download the QR Code to be placed in their resto tables, or anywhere so
 ## Demonstrations Video
 
 You can see how the DApps works here:
-https://youtu.be/HD11h_fE9BE
+https://youtu.be/9ITThhTvHK8
 
 ## Team Members
 
