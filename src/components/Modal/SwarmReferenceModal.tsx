@@ -42,7 +42,7 @@ export default function SwarmReferenceModal({
       <ContainerModal>
         <HeaderModal>
           <div className="flex items-center justify-between">
-            <p>ORDER REFERENCE</p>
+            <p className="font-bold">YOUR PAGE IS READY</p>
             <button
               className="flex justify-center items-center w-4 h-w-4"
               onClick={onRequestClose}
@@ -53,10 +53,7 @@ export default function SwarmReferenceModal({
         </HeaderModal>
         <BodyModal>
           <div className="container">
-            <p className="text-center">
-              Send your Order Reference below to <a href="#cashier">Cashier</a>{' '}
-              !
-            </p>
+            <p className="text-center">This is your Reference Code</p>
 
             <div className="w-full border rounded-xl h-24 mt-2">
               <p className="break-words mx-3 my-3 text-lg font-bold">
