@@ -93,7 +93,7 @@ export default function SwarmReferenceModal({
                 </Link>
                 <button
                   onClick={() => {
-                    toImg('#qr-code', 'name');
+                    toImg('#qr-code', `${payload.header.restaurantName}-menu`);
                   }}
                   className="block mt-3 w-full text-center bg-blue-500 hover:bg-blue-700 text-white  py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm"
                 >
